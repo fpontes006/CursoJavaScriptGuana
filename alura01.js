@@ -1,7 +1,10 @@
-google.charts.load('current', {'packages':['corechart']})
+google.charts.load('current', { 'packages': ['corechart'] })
+google.charts.setOnLoadCallback(desenharPizza)
 
 
 function desenharPizza() {
+    
+    let grafico = new google.visualization.PieChart(document.getElementById('grafico_Pizza'))
 
     const tabela = new google.visualization.DataTable();
 
@@ -17,8 +20,5 @@ function desenharPizza() {
 
     ])
 
-    let grafico = new google.visualization.PieChart(document.getElementById('grafico_Pizza'))
-
     grafico.draw(tabela)
 }
-google.charts.setOnLoadCallback(desenharPizza)
