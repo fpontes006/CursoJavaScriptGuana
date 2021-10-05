@@ -4,7 +4,20 @@ google.charts.setOnLoadCallback(desenharGrafico)
 
 function desenharGrafico() {
 
-    var grafico = new google.visualization.PieChart(document.getElementById('grafico_Pizza'))
+    //Grafico de Pizza
+    var tabela = new google.visualization.DataTable();
+
+    tabela.addColumn('string', 'categorias')
+    tabela.addColumn('number', 'valores')
+    tabela.addRows([
+        ['Eduacação', 2000],
+        ['Transporte', 500],
+        ['Lazer', 230],
+        ['Saude', 50],
+        ['Cartão de Credito', 900],
+        ['Alimentação', 260],
+
+    ])
 
     var opcoes = {
         title: 'Tipos de Gastos',
@@ -20,22 +33,10 @@ function desenharGrafico() {
             5: { color: 'grey' }
         }
     }
-
-    var tabela = new google.visualization.DataTable();
-
-    tabela.addColumn('string', 'categorias')
-    tabela.addColumn('number', 'valores')
-    tabela.addRows([
-        ['Eduacação', 2000],
-        ['Transporte', 500],
-        ['Lazer', 230],
-        ['Saude', 50],
-        ['Cartão de Credito', 900],
-        ['Alimentação', 260],
-
-    ])
+    var grafico = new google.visualization.PieChart(document.getElementById('grafico_Pizza'))
     grafico.draw(tabela, opcoes)
 
+    //Grafico de Linha
     tabela = new google.visualization.DataTable()
     tabela.addColumn('string', 'Mês')
     tabela.addColumn('number', 'Gastos')
@@ -70,11 +71,9 @@ function desenharGrafico() {
     }
 
     var grafico = new google.visualization.LineChart(document.getElementById('grafico_linha'))
-
-
     grafico.draw(tabela, opcoes)
 
-
+    //Grafico de Coluna
     var tabela = google.visualization.arrayToDataTable([
 
         ['Mês', 'Entrada', 'Saida'],
@@ -108,35 +107,63 @@ function desenharGrafico() {
     var grafico = new google.visualization.ColumnChart(document.getElementById('grafico_colunas'))
     grafico.draw(tabela, opcoes)
 
-
-    var tabela = new google.visualization.DataTable();
+    //Grafico de Barra S
+    var tabela = new google.visualization.DataTable()
 
     tabela.addColumn('string', 'categorias')
     tabela.addColumn('number', 'valores')
-    tabela.addColumn({ type: 'number', role: 'annotation' })
+    tabela.addColumn({ type: 'string', role: 'annotation' })
+    tabela.addColumn({ type: 'string', role: 'style' })
     tabela.addRows([
-        ['Eduacação', 2000, 2000],
-        ['Transporte', 500, 500],
-        ['Lazer', 230, 230],
-        ['Saude', 50, 50],
-        ['Cartão de Credito', 900, 900],
-        ['Alimentação', 260, 260],
+        ['Eduacação', 2000, 'R$ 2.000,00', 'blue'],
+        ['Transporte', 500, 'R$ 500,00', 'grey'],
+        ['Lazer', 230, 'R$ 230,00', 'grey'],
+        ['Saude', 50, 'R$ 50,00', 'grey'],
+        ['Cartão de Credito', 900, 'R$ 900,00', '#8904B1'],
+        ['Alimentação', 260, 'R$ 260,00', 'grey']
 
     ])
+    tabela.sort([{ column: 1, desc: true }])
 
     var opcoes = {
         title: 'Tipos De Gastos',
         vAxis: {
-            gridlines: {
-                count: 0},
-                textPosition: 'none'
-            },
-            legend:'none'
-        }
+            gridlines: { count: 0 }
+        },
+        legend: 'none',
+        hAxis: {
+            gridlines: { color: 'transparent' },
+            format: 'currency',
+            textPosition: 'none'
+        },
+        annotations: { alwaysOutside: true }
+    }
 
-    
+    var grafico = new google.visualization.BarChart(document.getElementById('grafico_Barras_Surpresa'))
+    grafico.draw(tabela, opcoes)
 
-    var grafico = new google.visualization.ColumnChart(document.getElementById('grafico_colunas_Surpresa'))
+    var dadosJson = $.ajax({
+        // url: 'dados.json',
+        url:'https://gist.githubusercontent.com/fpontes006/30ce7fa7bec5fe93011f7f40cd1750d5/raw/87085a274cec56bfd083eac5f1de88b406af7145/dados.json',
+        dataType: 'json',
+        async: false
+    }).responseText;
+
+    var tabela = new google.visualization.DataTable(dadosJson)
+    tabela.sort([{ column: 1, desc: true }])
+
+    var opcoes = {
+        title: 'Usuarios e poupanças',
+        legend: 'none',
+        hAxis: {
+            gridlines: { color: 'transparent' },
+            textPosition: 'none'
+        },
+        annotations: { alwaysOutside: true }
+
+    }
+
+    var grafico = new google.visualization.BarChart(document.getElementById('graficoBarrasJson'))
     grafico.draw(tabela, opcoes)
 
 }

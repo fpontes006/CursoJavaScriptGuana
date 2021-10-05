@@ -14,8 +14,13 @@
     width: 800px;
     margin: auto;
 }
-#grafico_colunas_Surpresa {
+#grafico_Barras_Surpresa {
     height: 400px;
+    width: 800px;
+    margin: auto;
+}
+#graficoBarrasJson {
+    height: 800px;
     width: 800px;
     margin: auto;
 }
