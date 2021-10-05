@@ -1,4 +1,11 @@
 #grafico_Pizza {
-    width: 500px;
+    height: 400px;
+    width: 900px;
+    margin: auto;
+}
+
+#grafico_linha{
+    height: 400px;
+    width: 900px;
     margin: auto;
 }
